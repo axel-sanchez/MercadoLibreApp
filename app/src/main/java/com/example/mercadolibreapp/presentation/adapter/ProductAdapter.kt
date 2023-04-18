@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.mercadolibreapp.data.models.ResponseDTO.*
 import com.example.mercadolibreapp.databinding.ItemProductBinding
 import com.example.mercadolibreapp.helpers.hide

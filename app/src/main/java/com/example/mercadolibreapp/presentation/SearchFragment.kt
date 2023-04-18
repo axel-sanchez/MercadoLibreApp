@@ -17,7 +17,6 @@ import com.example.mercadolibreapp.data.models.ResponseDTO.*
 import com.example.mercadolibreapp.databinding.FragmentSearchBinding
 import com.example.mercadolibreapp.domain.usecase.GetProductsBySearchUseCase
 import com.example.mercadolibreapp.helpers.Constants.ApiError
-import com.example.mercadolibreapp.helpers.Constants.ApiError.*
 import com.example.mercadolibreapp.helpers.Constants.ID_IMAGE_VIEW
 import com.example.mercadolibreapp.helpers.Constants.ID_PRODUCT
 import com.example.mercadolibreapp.helpers.Constants.QUERY

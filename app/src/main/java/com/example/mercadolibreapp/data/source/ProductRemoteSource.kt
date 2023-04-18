@@ -9,7 +9,6 @@ import com.example.mercadolibreapp.helpers.Constants.ApiError.*
 import com.example.mercadolibreapp.helpers.Either
 import com.example.mercadolibreapp.helpers.NetworkHelper
 import java.io.IOException
-import java.net.ConnectException
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -30,7 +30,8 @@
             android:layout_height="@dimen/dp250"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            android:transitionName="imageView"/>
 
         <TextView
             android:id="@+id/tvAvailableQuantity"

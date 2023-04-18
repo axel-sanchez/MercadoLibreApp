@@ -1,7 +1,6 @@
 package com.example.mercadolibreapp.data.room
 
 import androidx.room.TypeConverter
-import com.example.mercadolibreapp.data.models.ResponseDTO.*
 import com.example.mercadolibreapp.data.models.ResponseDTO.Product.*
 import com.google.gson.Gson
 

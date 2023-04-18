@@ -19,7 +19,8 @@
             android:id="@+id/ivProduct"
             android:layout_width="@dimen/dp150"
             android:layout_height="@dimen/dp150"
-            android:contentDescription="@string/imagen_de_cada_producto" />
+            android:contentDescription="@string/imagen_de_cada_producto"
+            android:transitionName="imageView"/>
     </androidx.cardview.widget.CardView>
 
     <TextView
