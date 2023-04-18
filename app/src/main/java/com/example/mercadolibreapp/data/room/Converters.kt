@@ -1,6 +1,9 @@
 package com.example.mercadolibreapp.data.room
 
 import androidx.room.TypeConverter
+import com.example.mercadolibreapp.data.models.Description
+import com.example.mercadolibreapp.data.models.Picture
+import com.example.mercadolibreapp.data.models.ProductDetails
 import com.example.mercadolibreapp.data.models.ResponseDTO.Product.*
 import com.google.gson.Gson
 
@@ -10,6 +13,68 @@ private const val nullStr = "null"
  */
 class Converters{
     private val gson: Gson = Gson()
+
+    @TypeConverter
+    fun fromProductDetails(productDetails: ProductDetails?): String? {
+        productDetails?.let {
+            return gson.toJson(it)
+        } ?: return null
+    }
+
+    @TypeConverter
+    fun toProductDetails(productDetails: String?): ProductDetails? {
+        productDetails?.let {
+            return gson.fromJson(it, ProductDetails::class.java)
+        } ?: return null
+    }
+
+    @TypeConverter
+    fun fromPicture(picture: Picture?): String? {
+        picture?.let {
+            return gson.toJson(it)
+        } ?: return null
+    }
+
+    @TypeConverter
+    fun toPicture(picture: String?): Picture? {
+        picture?.let {
+            return gson.fromJson(it, Picture::class.java)
+        } ?: return null
+    }
+
+    @TypeConverter
+    fun fromPictureList(list: List<Picture?>?): String? {
+        var response = ""
+        list?.let {
+            for (i in list.indices) {
+                response += if (i == 0) fromPicture(it[i])
+                else ";${fromPicture(it[i])}"
+            }
+        } ?: return null
+        return response
+    }
+
+    @TypeConverter
+    fun toPictureList(concat: String?): List<Picture?>? {
+        val list = concat?.split(";")
+        list?.let {
+            return it.map { str -> toPicture(str) }
+        } ?: return null
+    }
+
+    @TypeConverter
+    fun froDescription(description: Description?): String? {
+        description?.let {
+            return gson.toJson(it)
+        } ?: return null
+    }
+
+    @TypeConverter
+    fun toDescription(description: String?): Description? {
+        description?.let {
+            return gson.fromJson(it, Description::class.java)
+        } ?: return null
+    }
 
     @TypeConverter
     fun fromAddress(address: Address?): String? {
@@ -27,7 +92,7 @@ class Converters{
 
     @TypeConverter
     fun fromDifferentialPricing(differentialPricing: DifferentialPricing?): Int? {
-        return differentialPricing?.let { it.id?.let { id -> id } }
+        return differentialPricing?.id
     }
 
     @TypeConverter
@@ -51,12 +116,12 @@ class Converters{
 
     @TypeConverter
     fun fromOriginalPrice(number: Number?): Int? {
-        return number?.let { it.toInt() }
+        return number?.toInt()
     }
 
     @TypeConverter
     fun toOriginalPrice(number: Int?): Number? {
-        return number?.let { it }
+        return number
     }
 
     @TypeConverter
@@ -419,7 +484,7 @@ class Converters{
 
     @TypeConverter
     fun fromNeighborhoodEshop(neighborhood: Seller.Eshop.EshopLocation.Neighborhood?): String? {
-        return neighborhood?.let { it.id }
+        return neighborhood?.id
     }
 
     @TypeConverter
@@ -429,7 +494,7 @@ class Converters{
 
     @TypeConverter
     fun fromCityEshop(city: Seller.Eshop.EshopLocation.City?): String? {
-        return city?.let { it.id }
+        return city?.id
     }
 
     @TypeConverter
@@ -439,7 +504,7 @@ class Converters{
 
     @TypeConverter
     fun fromCountryEshop(country: Seller.Eshop.EshopLocation.Country?): String? {
-        return country?.let { it.id }
+        return country?.id
     }
 
     @TypeConverter
@@ -449,7 +514,7 @@ class Converters{
 
     @TypeConverter
     fun fromStateEshop(state: Seller.Eshop.EshopLocation.State?): String? {
-        return state?.let { it.id }
+        return state?.id
     }
 
     @TypeConverter

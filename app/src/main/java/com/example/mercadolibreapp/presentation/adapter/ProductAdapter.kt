@@ -40,7 +40,7 @@ class ProductAdapter(
                         if (urlImage.isNotEmpty()) ivProduct.load(urlImage)
                     } ?: kotlin.run { ivProduct.hide() }
 
-                    product.shipping?.free_shipping?.let { freeShipping ->
+                    product.shipping?.freeShipping?.let { freeShipping ->
                         if (freeShipping) txtFreeShipping.show()
                         else txtFreeShipping.hide()
                     }

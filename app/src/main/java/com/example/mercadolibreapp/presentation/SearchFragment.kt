@@ -81,7 +81,7 @@ class SearchFragment : Fragment() {
                 }, right = {
                     if ((response as Either.Right).r.isEmpty()) {
                         rvProducts.hide()
-                        tvErrorText.text = getString(R.string.there_is_not_products)
+                        tvErrorText.text = ApiError.EMPTY_PRODUCTS.error
                         cvEmptyState.show()
                     } else {
                         rvProducts.show()

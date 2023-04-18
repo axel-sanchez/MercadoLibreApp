@@ -2,9 +2,9 @@ package com.example.mercadolibreapp.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 /**
- * Clase encargada de almacenar la respuesta de la api para buscar productos
  * @author Axel Sanchez
  * */
 @Entity data class ResponseDTO(
@@ -62,35 +62,46 @@ import androidx.room.PrimaryKey
         var total: Int? = null
     )
 
-    /**
-     * Clase que sirve para almacenar los productos que se reciben de la api
-     * @author Axel Sanchez
-     * **/
     @Entity data class Product(
         @PrimaryKey var id: String,
-        var accepts_mercadopago: Boolean? = null,
+        @SerializedName("accepts_mercadopago")
+        var acceptsMercadoPago: Boolean? = null,
         var address: Address? = null,
         var attributes: List<Attribute?>? = null,
-        var available_quantity: Int? = null,
-        var buying_mode: String? = null,
-        var catalog_product_id: String? = null,
-        var category_id: String? = null,
+        @SerializedName("available_quantity")
+        var availableQuantity: Int? = null,
+        @SerializedName("buying_mode")
+        var buyingMode: String? = null,
+        @SerializedName("catalog_product_id")
+        var catalogProductId: String? = null,
+        @SerializedName("category_id")
+        var categoryId: String? = null,
         var condition: String? = null,
-        var currency_id: String? = null,
-        var differential_pricing: DifferentialPricing? = null,
-        var domain_id: String? = null,
+        @SerializedName("currency_id")
+        var currencyId: String? = null,
+        @SerializedName("differential_pricing")
+        var differentialPricing: DifferentialPricing? = null,
+        @SerializedName("domain_id")
+        var domainId: String? = null,
         var installments: Installments? = null,
-        var listing_type_id: String? = null,
-        var official_store_id: Int? = null,
-        var original_price: Number? = null,
+        @SerializedName("listing_type_id")
+        var listingTypeId: String? = null,
+        @SerializedName("official_store_id")
+        var officialStoreId: Int? = null,
+        @SerializedName("original_price")
+        var originalPrice: Number? = null,
         var permalink: String? = null,
         var price: Number? = null,
         var seller: Seller? = null,
-        var seller_address: SellerAddress? = null,
+        @SerializedName("seller_address")
+        var sellerAddress: SellerAddress? = null,
         var shipping: Shipping? = null,
-        var site_id: String? = null,
-        var sold_quantity: Int? = null,
-        var stop_time: String? = null,
+        @SerializedName("site_id")
+        var siteId: String? = null,
+        @SerializedName("sold_quantity")
+        var soldQuantity: Int? = null,
+        @SerializedName("stop_time")
+        var stopTime: String? = null,
         var tags: List<String?>? = null,
         var thumbnail: String? = null,
         var title: String? = null,
@@ -271,7 +282,8 @@ import androidx.room.PrimaryKey
         }
 
         @Entity data class Shipping(
-            var free_shipping: Boolean? = null,
+            @SerializedName("free_shipping")
+            var freeShipping: Boolean? = null,
             var logistic_type: String? = null,
             var mode: String? = null,
             var store_pick_up: Boolean? = null,

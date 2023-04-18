@@ -101,4 +101,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
 
     debugImplementation "androidx.fragment:fragment-testing:1.5.5"
+
+    //View Pager indicador
+    implementation "com.tbuonomo:dotsindicator:4.3"
 }

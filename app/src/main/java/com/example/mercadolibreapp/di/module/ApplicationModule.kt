@@ -13,8 +13,8 @@ import com.example.mercadolibreapp.data.source.ProductRemoteSourceImpl
 import com.example.mercadolibreapp.domain.usecase.GetProductsBySearchUseCase
 import com.example.mercadolibreapp.domain.usecase.GetProductsBySearchUseCaseImpl
 import com.example.mercadolibreapp.domain.repository.ProductRepository
-import com.example.mercadolibreapp.domain.usecase.GetProductUseCase
-import com.example.mercadolibreapp.domain.usecase.GetProductUseCaseImpl
+import com.example.mercadolibreapp.domain.usecase.GetProductDetailsUseCase
+import com.example.mercadolibreapp.domain.usecase.GetProductDetailsUseCaseImpl
 import com.example.mercadolibreapp.helpers.Constants.BASE_URL
 import com.example.mercadolibreapp.helpers.NetworkHelper
 import dagger.Module
@@ -40,7 +40,7 @@ class ApplicationModule(private val context: Context){
 
     @Provides
     @Singleton
-    fun provideGetProductUseCase(getProductUseCase: GetProductUseCaseImpl): GetProductUseCase = getProductUseCase
+    fun provideGetProductUseCase(getProductUseCase: GetProductDetailsUseCaseImpl): GetProductDetailsUseCase = getProductUseCase
 
     @Provides
     @Singleton
@@ -55,7 +55,7 @@ class ApplicationModule(private val context: Context){
     @Singleton
     fun provideDatabase(context: Context): Database {
         return Room
-            .databaseBuilder(context, Database::class.java, "MercadoLibreDB.db1")
+            .databaseBuilder(context, Database::class.java, "MercadoLibreDB.db3")
             .build()
     }
 

@@ -1,5 +1,6 @@
 package com.example.mercadolibreapp.domain.repository
 
+import com.example.mercadolibreapp.data.models.ProductDetails
 import com.example.mercadolibreapp.data.models.ResponseDTO.*
 import com.example.mercadolibreapp.helpers.Constants
 import com.example.mercadolibreapp.helpers.Either
@@ -9,6 +10,11 @@ import com.example.mercadolibreapp.helpers.Either
  */
 interface ProductRepository {
     suspend fun getProductsBySearch(query: String): Either<Constants.ApiError, List<Product?>>
-    suspend fun getProduct(idProduct: String): Product?
+    suspend fun getProductDetails(idProduct: String): Either<Constants.ApiError, ProductDetails?>
     suspend fun getLocalProducts(query: String): List<Product?>
+    suspend fun getRemoteProducts(query: String): Either<Constants.ApiError, List<Product?>>
+    suspend fun addProductsInDB(result: List<Product?>, query: String)
+    suspend fun addProductDetailsInDB(productDetails: ProductDetails?)
+
+    suspend fun getRemoteProductDetails(idProduct: String): Either<Constants.ApiError, ProductDetails?>
 }

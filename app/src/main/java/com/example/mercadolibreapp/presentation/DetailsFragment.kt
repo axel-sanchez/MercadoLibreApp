@@ -12,14 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.mercadolibreapp.core.MyApplication
-import com.example.mercadolibreapp.data.models.ResponseDTO.Product
+import com.example.mercadolibreapp.data.models.ProductDetails
+import com.example.mercadolibreapp.data.models.ResponseDTO
 import com.example.mercadolibreapp.databinding.FragmentDetailsBinding
-import com.example.mercadolibreapp.domain.usecase.GetProductUseCase
-import com.example.mercadolibreapp.helpers.Constants
+import com.example.mercadolibreapp.domain.usecase.GetProductDetailsUseCase
+import com.example.mercadolibreapp.helpers.*
 import com.example.mercadolibreapp.helpers.Constants.MERCADO_LIBRE_PACKAGE
-import com.example.mercadolibreapp.helpers.hide
-import com.example.mercadolibreapp.helpers.load
-import com.example.mercadolibreapp.helpers.show
+import com.example.mercadolibreapp.presentation.adapter.ImageAdapter
 import com.example.mercadolibreapp.presentation.viewmodel.DetailsViewModel
 import javax.inject.Inject
 
@@ -31,7 +30,7 @@ class DetailsFragment : Fragment() {
     private lateinit var idProduct: String
 
     @Inject
-    lateinit var getProductUseCase: GetProductUseCase
+    lateinit var getProductDetailsUseCase: GetProductDetailsUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +38,7 @@ class DetailsFragment : Fragment() {
     }
 
     private val viewModel: DetailsViewModel by viewModels(
-        factoryProducer = { DetailsViewModel.DetailsViewModelFactory(getProductUseCase) }
+        factoryProducer = { DetailsViewModel.DetailsViewModelFactory(getProductDetailsUseCase) }
     )
 
     private var fragmentDetailsBinding: FragmentDetailsBinding? = null
@@ -67,93 +66,68 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    fun updateView(product: Product?) {
+    private fun updateView(response: Either<Constants.ApiError, ProductDetails?>?) {
+
         with(binding) {
-            product?.let {
-                it.title?.let { title ->
-                    tvTitle.text = title
-                } ?: tvTitle.hide()
+            response?.fold(
+                left = {
+                    tvErrorText.text = it.error
+                    cvEmptyState.show()
+                    clContent.hide()
+                }, right = {
+                    clContent.show()
 
-                it.thumbnail?.let { urlImage ->
-                    ivImage.load(urlImage)
-                } ?: ivImage.hide()
+                    it?.let { product ->
+                        product.title?.let { title ->
+                            tvTitle.text = title
+                        } ?: tvTitle.hide()
 
-                it.available_quantity?.let { availableQuatity ->
-                    if (availableQuatity > 0) tvAvailableQuantity.text = "Unidades disponibles: $availableQuatity"
-                } ?: tvAvailableQuantity.hide()
+                        vpImages.adapter = ImageAdapter(it.pictures)
+                        diIndicator.attachTo(vpImages)
 
-                it.price?.let { price ->
-                    tvPrice.text = "$${price.toFloat()}"
-                } ?: tvPrice.hide()
+                        product.availableQuantity?.let { availableQuatity ->
+                            if (availableQuatity > 0) tvAvailableQuantity.text = "Unidades disponibles: $availableQuatity"
+                        } ?: tvAvailableQuantity.hide()
 
-                it.shipping?.free_shipping
-                    ?.let { freeShipping ->
-                        if (freeShipping) tvFreeShipping.show()
-                        else tvFreeShipping.hide()
-                    } ?: tvFreeShipping.hide()
+                        product.price?.let { price ->
+                            tvPrice.text = "$${price.toFloat()}"
+                        } ?: tvPrice.hide()
 
-                it.original_price?.let { originalPrice ->
-                    if (originalPrice.toFloat() > 0.0f) {
-                        tvOriginalPrice.text = "$${originalPrice}"
-                        tvOriginalPrice.paintFlags = tvOriginalPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    } else tvOriginalPrice.hide()
-                } ?: tvOriginalPrice.hide()
+                        product.shipping?.freeShipping
+                            ?.let { freeShipping ->
+                                if (freeShipping) tvFreeShipping.show()
+                                else tvFreeShipping.hide()
+                            } ?: tvFreeShipping.hide()
 
-                it.seller?.let { seller ->
+                        product.description?.let { description ->
+                            tvDesacription.text = description.text
+                            tvDesacription.show()
+                        }?: kotlin.run { tvDesacription.hide() }
 
-                    seller.seller_reputation?.transactions?.completed
-                        ?.let { completed ->
-                            tvSoldProducts.text = "$completed ventas"
-                        } ?: tvSoldProducts.hide()
-
-                    seller.eshop?.let { eshop ->
-                        eshop.nick_name?.let { name ->
-                            tvNameSeller.text = name
-                        } ?: tvNameSeller.hide()
-
-                        eshop.eshop_logo_url?.let { logoUrl ->
-                            Glide.with(requireContext())
-                                .load(logoUrl)
-                                .into(ivLogoSeller)
-                        } ?: ivLogoSeller.hide()
-                    } ?: kotlin.run {
-                        tvNameSeller.hide()
-                        ivLogoSeller.hide()
-                    }
-                } ?: kotlin.run {
-                    tvSoldProducts.hide()
-                    tvNameSeller.hide()
-                    ivLogoSeller.hide()
-                }
-
-                it.seller_address?.let { address ->
-                    var addressSeller = ""
-                    address.city?.name
-                        ?.let { name -> addressSeller += name }
-                    address.state?.name
-                        ?.let { name -> addressSeller += ", $name" }
-                    address.country?.name
-                        ?.let { name -> addressSeller += ", $name" }
-                    tvAddressSeller.text = addressSeller
-                } ?: tvAddressSeller.hide()
-
-                btnBuy.setOnClickListener {
-                    val uri = Uri.parse(product.permalink)
-                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                    intent.setPackage(MERCADO_LIBRE_PACKAGE)
-
-                    try {
-                        startActivity(intent)
-                    } catch (e: ActivityNotFoundException) {
-                        startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(product.permalink)
-                            )
-                        )
+                        btnBuy.setOnClickListener {
+                            openMercadoLibreApp(product)
+                        }
                     }
                 }
-            }
+            )
+            cpiLoading.hide()
+        }
+    }
+
+    private fun openMercadoLibreApp(product: ProductDetails){
+        val uri = Uri.parse(product.permalink)
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.setPackage(MERCADO_LIBRE_PACKAGE)
+
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(product.permalink)
+                )
+            )
         }
     }
 }
