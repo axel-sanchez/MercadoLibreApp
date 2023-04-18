@@ -125,7 +125,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tvPrice" />
 
             <TextView
-                android:id="@+id/tvDesacription"
+                android:id="@+id/tvDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
@@ -140,7 +140,7 @@
                 android:id="@+id/btnBuy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvDesacription"
+                app:layout_constraintTop_toBottomOf="@+id/tvDescription"
                 android:layout_marginTop="@dimen/dp15"
                 android:layout_marginStart="@dimen/dp15"
                 android:layout_marginEnd="@dimen/dp15"

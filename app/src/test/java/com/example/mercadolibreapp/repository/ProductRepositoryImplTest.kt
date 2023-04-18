@@ -8,13 +8,7 @@ import com.example.mercadolibreapp.domain.repository.ProductRepository
 import com.example.mercadolibreapp.helpers.DummyProducts.TECLADO
 import com.example.mercadolibreapp.helpers.DummyProducts.getListProducts
 import com.example.mercadolibreapp.helpers.DummyProducts.product1
-import com.example.mercadolibreapp.helpers.DummyProducts.product2
-import com.example.mercadolibreapp.helpers.DummyProducts.product3
-import com.example.mercadolibreapp.helpers.DummyProducts.product4
-import com.example.mercadolibreapp.helpers.Either
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.contains
 import org.junit.Test
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.never

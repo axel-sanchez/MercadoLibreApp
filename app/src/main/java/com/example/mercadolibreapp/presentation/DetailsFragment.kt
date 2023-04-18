@@ -100,9 +100,9 @@ class DetailsFragment : Fragment() {
                             } ?: tvFreeShipping.hide()
 
                         product.description?.let { description ->
-                            tvDesacription.text = description.text
-                            tvDesacription.show()
-                        }?: kotlin.run { tvDesacription.hide() }
+                            tvDescription.text = description.text
+                            tvDescription.show()
+                        }?: kotlin.run { tvDescription.hide() }
 
                         btnBuy.setOnClickListener {
                             openMercadoLibreApp(product)
