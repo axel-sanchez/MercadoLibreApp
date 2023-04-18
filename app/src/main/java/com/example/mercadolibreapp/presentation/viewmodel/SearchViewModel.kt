@@ -16,7 +16,7 @@ class SearchViewModel(private val getProductsBySearchUseCase: GetProductsBySearc
         MutableLiveData<Either<Constants.ApiError, List<Product?>>>()
 
 
-    private fun setListData(result: Either<Constants.ApiError, List<Product?>>) {
+    fun setListData(result: Either<Constants.ApiError, List<Product?>>) {
         listData.postValue(result)
     }
 
