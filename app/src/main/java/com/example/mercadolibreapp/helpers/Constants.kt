@@ -8,7 +8,7 @@ object Constants {
     const val BASE_URL = "https://api.mercadolibre.com/sites/MLA/"
 
     enum class ApiError(var error: String) {
-        API_ERROR("Error al obtener los productos"),
-        NETWORK_ERROR("Hubo un error de conexión a internet")
+        API_ERROR("Hubo un error al obtener los productos"),
+        NETWORK_ERROR("Hubo un error en la conexión de internet")
     }
 }

@@ -10,8 +10,6 @@
     <string name="logo_de_mercado_libre">logo de mercado libre</string>
     <string name="imagen_de_cada_producto">imagen de cada producto</string>
     <string name="there_is_not_products">No se obtuvo ningún producto</string>
-    <string name="error_api_products">Hubo un error al obtener los productos</string>
-    <string name="error_net_products">Hubo un error en la conexión de internet</string>
     <string name="comprar">Comprar</string>
     <string name="envio_gratis">Envío gratis</string>
 </resources>

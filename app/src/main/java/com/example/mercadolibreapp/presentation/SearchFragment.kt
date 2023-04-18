@@ -76,10 +76,7 @@ class SearchFragment : Fragment() {
         with(binding) {
             response?.fold(
                 left = {
-                    when(it){
-                        NETWORK_ERROR -> tvErrorText.text = getString(R.string.error_net_products)
-                        else -> tvErrorText.text = getString(R.string.error_api_products)
-                    }
+                    tvErrorText.text = it.error
                     cvEmptyState.show()
                     rvProducts.hide()
                 }, right = {
