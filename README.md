@@ -6,7 +6,7 @@ Este proyecto contiene las siguientes características:
 
 * La pantalla principal donde hay un campo para ingresar lo que queremos buscar.
 * La segunda pantalla donde se ve un listado de productos.
-* Una vista con un producto específico con más información del mismo y del vendedor (se accede seleccionado un producto del listado de la segunda pantalla).
+* Una vista con un producto específico con más información del mismo (se accede seleccionado un producto del listado de la segunda pantalla).
 * La vista de este mismo producto abierta en la app oficial de Mercado Libre.
 # Capturas de pantalla
 
@@ -16,20 +16,23 @@ Este proyecto contiene las siguientes características:
 </p>
 
 <p align="center">
-  <img width="270" height="555" src="https://user-images.githubusercontent.com/51034538/232633957-e33068fc-681a-43ab-a7a4-a4eb73349da9.jpg">
+  <img width="270" height="555" src="https://user-images.githubusercontent.com/51034538/232757834-8902cb98-421b-4ca0-ab54-dae55c48371b.jpg">
   <img width="270" height="555" src="https://user-images.githubusercontent.com/51034538/232633963-f64aefb5-ed8f-4ca7-87c0-4aa5e4d21bb6.jpg">
 </p>
 
 ## Guía de implementación
-Traigo la información desde el servicio https://api.mercadolibre.com/sites/MLA/search
+Traigo la información desde los servicios 
+https://api.mercadolibre.com/sites/MLA/search
+https://api.mercadolibre.com/items/{productId}/description
+https://api.mercadolibre.com/items/{productId}
 
 ### Arquitectura
 Este proyecto implementa el patrón de arquitectura MVVM y sigue buenas prácticas de Clean Architecture para hacer un código más independiente, mantenible y sencillo.
 
 #### Capas
-* Presentation: Fragments y Activities
-* Data: contiene la implementación del repositorio y los sources donde se conecta con la api y con la base de datos
-* Domain: contiene los casos de uso y la definición del repositorio
+* Presentation: Fragments, Activities, Viewmodels.
+* Data: contiene la implementación del repositorio y los sources donde se conecta con la api y con la base de datos.
+* Domain: contiene los casos de uso y la definición del repositorio.
 Este proyecto usa ViewModel para almacenar y manejar datos, así como comunicar cambios hacia la vista.
 
 ### Administrador de solicitudes: Retrofit
