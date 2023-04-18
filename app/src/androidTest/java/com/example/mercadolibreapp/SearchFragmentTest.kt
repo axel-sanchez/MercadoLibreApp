@@ -37,15 +37,9 @@ class SearchFragmentTest {
     }
 
     @Test
-    fun should_show_product_details_when_click_item() {
-        onView(withId(R.id.rvProducts)).perform(RecyclerViewActions.actionOnItemAtPosition<ProductAdapter.ViewHolder>(0, click()))
-        onView(withId(R.id.tvTitle)).check(matches(withText("Teclado Bluetooth Satechi Slim St-btsx1m Qwerty Inglés Us Color Gris")))
-    }
-
-    @Test
     fun should_show_recyclerview_when_press_back_from_details_fragment() {
         onView(withId(R.id.rvProducts)).perform(RecyclerViewActions.actionOnItemAtPosition<ProductAdapter.ViewHolder>(0, click()))
-        onView(withId(R.id.tvTitle)).check(matches(withText("Teclado Bluetooth Satechi Slim St-btsx1m Qwerty Inglés Us Color Gris")))
+        onView(withId(R.id.tvTitle)).check(matches(withText("Teclado Philips K334 Cable Usb Español Ñ Teclas Redondas Pc")))
         pressBack()
         onView(withId(R.id.rvProducts)).check(matches(isDisplayed()))
         onView(withId(R.id.cpiLoading)).check(matches(not(isDisplayed())))

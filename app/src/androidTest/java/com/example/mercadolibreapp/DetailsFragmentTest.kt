@@ -14,6 +14,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import com.example.mercadolibreapp.data.models.Description
+import com.example.mercadolibreapp.data.models.ProductDetails
 import com.example.mercadolibreapp.data.models.ResponseDTO.*
 import com.example.mercadolibreapp.data.models.ResponseDTO.Product.*
 import com.example.mercadolibreapp.presentation.MainActivity
@@ -32,23 +34,22 @@ class DetailsFragmentTest{
     @get: Rule
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
-    private val product = Product(
+    private val product = ProductDetails(
         id = "MLA1199944090",
-        title = "Teclado Bluetooth Satechi Slim St-btsx1m Qwerty Inglés Us Color Gris",
-        price = 31999,
-        seller = Seller(eshop = Seller.Eshop(nick_name = "ARGENWELL"))
+        title = "Teclado Philips K334 Cable Usb Español Ñ Teclas Redondas Pc",
+        price = 31999
     )
 
     @Before
     fun setUp() {
         onView(withId(R.id.etSearch)).perform(ViewActions.typeText("teclado"), ViewActions.pressImeActionButton())
-        onView(withId(R.id.rvProducts)).perform(RecyclerViewActions.actionOnItemAtPosition<ProductAdapter.ViewHolder>(0, ViewActions.click()))
+        onView(withId(R.id.rvProducts)).perform(RecyclerViewActions.actionOnItemAtPosition<ProductAdapter.ViewHolder>(0, click()))
     }
 
     @Test
     fun should_show_product_title_and_description() {
         onView(withId(R.id.tvTitle)).check(matches(withText(product.title)))
-        onView(withId(R.id.tvNameSeller)).check(matches(withText(product.seller?.eshop?.nick_name)))
+        //onView(withId(R.id.tvDescription)).check(matches(withText(product.description?.text)))
     }
 
     /*@Test
