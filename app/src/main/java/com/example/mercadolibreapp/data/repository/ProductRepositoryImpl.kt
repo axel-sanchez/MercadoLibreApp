@@ -57,19 +57,6 @@ class ProductRepositoryImpl @Inject constructor(
         return eitherRemoteProductDetails
     }
 
-    override suspend fun getRemoteProductDetails(idProduct: String): Either<ApiError, ProductDetails?>{
-        val description = productRemoteSource.getDescription(idProduct).value
-        val productDetailsLiveData = productRemoteSource.getProductDetails(idProduct)
-
-        productDetailsLiveData.value?.fold(
-            left = {},
-            right = { productDetails ->
-                    productDetails?.description = description
-            }
-        )
-       return productDetailsLiveData.value ?: Either.Left(GENERIC)
-    }
-
     override suspend fun getLocalProducts(query: String): List<Product?> {
         return productLocalSource.getProductBySearch(query)
     }
@@ -78,14 +65,27 @@ class ProductRepositoryImpl @Inject constructor(
         return productRemoteSource.getProducts(query).value ?: Either.Left(GENERIC)
     }
 
-    override suspend fun addProductsInDB(result: List<Product?>, query: String) {
+    private suspend fun getRemoteProductDetails(idProduct: String): Either<ApiError, ProductDetails?>{
+        val description = productRemoteSource.getDescription(idProduct).value
+        val productDetailsLiveData = productRemoteSource.getProductDetails(idProduct)
+
+        productDetailsLiveData.value?.fold(
+            left = {},
+            right = { productDetails ->
+                productDetails?.description = description
+            }
+        )
+        return productDetailsLiveData.value ?: Either.Left(GENERIC)
+    }
+
+    private suspend fun addProductsInDB(result: List<Product?>, query: String) {
         result.forEach { product ->
             product?.search = query
             productLocalSource.insertProduct(product)
         }
     }
 
-    override suspend fun addProductDetailsInDB(productDetails: ProductDetails?) {
+    private suspend fun addProductDetailsInDB(productDetails: ProductDetails?) {
         productLocalSource.insertProductDetails(productDetails)
     }
 }

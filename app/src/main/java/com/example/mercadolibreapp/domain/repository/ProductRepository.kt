@@ -13,8 +13,4 @@ interface ProductRepository {
     suspend fun getProductDetails(idProduct: String): Either<Constants.ApiError, ProductDetails?>
     suspend fun getLocalProducts(query: String): List<Product?>
     suspend fun getRemoteProducts(query: String): Either<Constants.ApiError, List<Product?>>
-    suspend fun addProductsInDB(result: List<Product?>, query: String)
-    suspend fun addProductDetailsInDB(productDetails: ProductDetails?)
-
-    suspend fun getRemoteProductDetails(idProduct: String): Either<Constants.ApiError, ProductDetails?>
 }
