@@ -14,6 +14,7 @@ import com.example.mercadolibreapp.data.models.ResponseDTO.*
 import com.example.mercadolibreapp.data.repository.FakeRepository
 import com.example.mercadolibreapp.data.repository.FakeRepository.Companion.TECLADO
 import com.example.mercadolibreapp.helpers.RecyclerViewItemCountAssertion
+import com.example.mercadolibreapp.helpers.inThePosition
 import com.example.mercadolibreapp.presentation.adapter.ProductAdapter
 import org.hamcrest.Matchers.not
 import org.junit.Before
@@ -65,5 +66,11 @@ class SearchFragmentTest {
         onView(withId(R.id.rvProducts)).perform(scrollToPosition<RecyclerView.ViewHolder>(0))
         onView(withId(R.id.rvProducts)).perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
         onView(withId(R.id.tvTitle)).check(matches(withText(repository.product1.title)))
+    }
+
+    @Test
+    fun should_recyclerview_show_correct_information(){
+        onView(withId(R.id.rvProducts)).check(matches(inThePosition(3, hasDescendant(withText(repository.product4.title)))))
+        onView(withId(R.id.rvProducts)).check(matches(inThePosition(0, hasDescendant(withText("$${repository.product1.price.toString()}")))))
     }
 }
