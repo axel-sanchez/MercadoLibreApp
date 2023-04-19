@@ -1,5 +1,8 @@
 package com.example.mercadolibreapp.data.repository
 
+import android.os.Build
+import android.util.Log
+import androidx.test.platform.app.InstrumentationRegistry
 import com.example.mercadolibreapp.data.models.ProductDetails
 import com.example.mercadolibreapp.data.models.ResponseDTO.*
 import com.example.mercadolibreapp.data.source.ProductLocalSource
@@ -27,7 +30,6 @@ class ProductRepositoryImpl @Inject constructor(
 ) : ProductRepository {
 
     override suspend fun getProductsBySearch(query: String): Either<ApiError, List<Product?>> {
-
         val localProducts = getLocalProducts(query)
         if (localProducts.isNotEmpty()) {
             return Either.Right(localProducts)

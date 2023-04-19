@@ -1,5 +1,7 @@
 package com.example.mercadolibreapp.helpers
 
+import androidx.test.platform.app.InstrumentationRegistry
+
 /**
  * @author Axel Sanchez
  */
@@ -20,5 +22,12 @@ object Constants {
         GENERIC_DETAILS("Hubo un error al obtener los detalles del producto"),
         EMPTY_PRODUCTS("No se obtuvo ningún producto"),
         NETWORK_ERROR("Hubo un error en la conexión de internet")
+    }
+
+    val isRunningTest = try {
+        InstrumentationRegistry.getInstrumentation()
+        true
+    } catch (e: IllegalStateException) {
+        false
     }
 }

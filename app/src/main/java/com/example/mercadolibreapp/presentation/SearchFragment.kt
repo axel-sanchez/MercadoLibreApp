@@ -32,10 +32,9 @@ import javax.inject.Inject
  */
 class SearchFragment : Fragment() {
 
-    private lateinit var query: String
+    @Inject lateinit var getProductsBySearchUseCase: GetProductsBySearchUseCase
 
-    @Inject
-    lateinit var getProductsBySearchUseCase: GetProductsBySearchUseCase
+    private lateinit var query: String
 
     private var fragmentSearchBinding: FragmentSearchBinding? = null
     private val binding get() = fragmentSearchBinding!!

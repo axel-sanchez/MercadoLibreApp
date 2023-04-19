@@ -2,6 +2,7 @@ package com.example.mercadolibreapp.di.module
 
 import android.content.Context
 import androidx.room.Room
+import com.example.mercadolibreapp.data.repository.FakeRepository
 import com.example.mercadolibreapp.data.repository.ProductRepositoryImpl
 import com.example.mercadolibreapp.data.room.Database
 import com.example.mercadolibreapp.data.service.ApiClient
@@ -16,6 +17,7 @@ import com.example.mercadolibreapp.domain.repository.ProductRepository
 import com.example.mercadolibreapp.domain.usecase.GetProductDetailsUseCase
 import com.example.mercadolibreapp.domain.usecase.GetProductDetailsUseCaseImpl
 import com.example.mercadolibreapp.helpers.Constants.BASE_URL
+import com.example.mercadolibreapp.helpers.Constants.isRunningTest
 import com.example.mercadolibreapp.helpers.NetworkHelper
 import dagger.Module
 import dagger.Provides
@@ -28,7 +30,10 @@ import javax.inject.Singleton
 class ApplicationModule(private val context: Context){
     @Provides
     @Singleton
-    fun provideProductRepository(productRepository: ProductRepositoryImpl): ProductRepository = productRepository
+    fun provideProductRepository(productLocalSource: ProductLocalSource, productRemoteSource: ProductRemoteSource): ProductRepository{
+        return if (isRunningTest) FakeRepository()
+        else ProductRepositoryImpl(productRemoteSource, productLocalSource)
+    }
 
     @Provides
     @Singleton
