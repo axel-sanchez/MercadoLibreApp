@@ -6,11 +6,13 @@ import android.support.test.espresso.intent.Intents
 import android.support.test.espresso.intent.Intents.intended
 import android.support.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.core.os.bundleOf
+import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.fragment.app.testing.withFragment
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -47,6 +49,8 @@ class DetailsFragmentTest {
     @get: Rule
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
+    private lateinit var scenario: FragmentScenario<DetailsFragment>
+
     private val product = ProductDetails(
         id = "MLA1199944090",
         title = "Teclado Bluetooth Satechi Slim St-btsx1m Qwerty Inglés Us Color Gris",
@@ -60,7 +64,7 @@ class DetailsFragmentTest {
 
     @Before
     fun setUp() {
-        launchFragmentInContainer<DetailsFragment>(bundleOf("idProduct" to "MLA1199944090"))
+        scenario = launchFragmentInContainer(bundleOf("idProduct" to "MLA1199944090"))
     }
 
     @Test
@@ -69,17 +73,24 @@ class DetailsFragmentTest {
         onView(withId(R.id.tvDescription)).check(matches(withText(product.description?.text)))
     }
 
+    @Test
+    fun should_show_product_title_and_description_when_fragment_is_recreate() {
+        scenario.recreate()
+        onView(withId(R.id.tvTitle)).check(matches(withText(product.title)))
+        onView(withId(R.id.tvDescription)).check(matches(withText(product.description?.text)))
+    }
+
     @Ignore("Me da el siguiente error: No instrumentation registered! Must run under a registering instrumentation.")
     @Test
     fun should_open_mercadolibre_app_when_click_buy_button(){
-        onView(withId(R.id.btnBuy)).perform(click())
-        //intended(hasPackage("com.mercadolibre"))
-        intended(
+        onView(withId(R.id.btnBuy)).perform(scrollTo(), click())
+        intended(hasPackage("com.mercadolibre"))
+        /*intended(
             allOf(
                 hasAction(Intent.ACTION_VIEW),
                 hasData(Uri.parse("https://www.mercadolibre.com.ar/teclado-bluetooth-satechi-slim-st-btsx1m-qwerty-ingles-us-color-gris/p/MLA18217917")),
                 hasPackage("com.mercadolibre")
             )
-        )
+        )*/
     }
 }
