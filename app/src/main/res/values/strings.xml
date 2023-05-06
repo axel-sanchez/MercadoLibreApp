@@ -3,13 +3,10 @@
     <string name="busqueda">Buscar en Mercado Libre</string>
     <string name="sin_productos">No se encontraron productos vinculados a su búsqueda.</string>
     <string name="free_shipping">Envio Gratis</string>
-    <string name="vendedor">VENDEDOR</string>
     <string name="agotado">AGOTADO</string>
-    <string name="volver_a_presionar">Vuelve a presionar para salir</string>
-    <string name="failSearch">Falló la búsqueda</string>
     <string name="logo_de_mercado_libre">logo de mercado libre</string>
     <string name="imagen_de_cada_producto">imagen de cada producto</string>
-    <string name="there_is_not_products">No se obtuvo ningún producto</string>
     <string name="comprar">Comprar</string>
     <string name="envio_gratis">Envío gratis</string>
+    <string name="debe_ingresar_una_busqueda">Debe ingresar una búsqueda</string>
 </resources>

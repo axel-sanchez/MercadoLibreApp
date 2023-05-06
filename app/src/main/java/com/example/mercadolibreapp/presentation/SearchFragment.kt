@@ -106,7 +106,7 @@ class SearchFragment : Fragment() {
             val extras = FragmentNavigatorExtras(
                 imageView to ID_IMAGE_VIEW
             )
-            findNavController().navigate(R.id.action_searchFragment_to_detailsFragment, bundle, null, extras)
+            //findNavController().navigate(R.id.action_searchFragment_to_detailsFragment, bundle, null, extras)
         }
     }
 }

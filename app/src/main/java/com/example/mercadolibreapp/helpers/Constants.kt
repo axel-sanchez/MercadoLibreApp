@@ -31,3 +31,8 @@ object Constants {
         false
     }
 }
+
+object ContentDescription{
+    const val LOGO = "logo de mercado libre"
+    const val START_ICON = "Start Icon"
+}
