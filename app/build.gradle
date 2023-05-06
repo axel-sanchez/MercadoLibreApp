@@ -122,4 +122,7 @@ dependencies {
 
     //View Pager indicador
     implementation "com.tbuonomo:dotsindicator:4.3"
+
+    //Coil
+    implementation "io.coil-kt:coil-compose:1.4.0"
 }
