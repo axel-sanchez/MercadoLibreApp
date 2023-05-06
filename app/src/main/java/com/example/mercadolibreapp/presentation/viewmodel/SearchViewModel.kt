@@ -1,10 +1,8 @@
 package com.example.mercadolibreapp.presentation.viewmodel
 
 import androidx.lifecycle.*
-import com.example.mercadolibreapp.data.models.ResponseDTO.*
+import com.example.mercadolibreapp.data.models.DataProducts
 import com.example.mercadolibreapp.domain.usecase.GetProductsBySearchUseCase
-import com.example.mercadolibreapp.helpers.Constants
-import com.example.mercadolibreapp.helpers.Either
 import kotlinx.coroutines.launch
 
 /**
@@ -12,11 +10,11 @@ import kotlinx.coroutines.launch
  */
 class SearchViewModel(private val getProductsBySearchUseCase: GetProductsBySearchUseCase): ViewModel() {
 
-    private val listData: MutableLiveData<Either<Constants.ApiError, List<Product?>>> =
-        MutableLiveData<Either<Constants.ApiError, List<Product?>>>()
+    private val listData: MutableLiveData<DataProducts> =
+        MutableLiveData<DataProducts>()
 
 
-    fun setListData(result: Either<Constants.ApiError, List<Product?>>) {
+    fun setListData(result: DataProducts) {
         listData.postValue(result)
     }
 
@@ -26,7 +24,7 @@ class SearchViewModel(private val getProductsBySearchUseCase: GetProductsBySearc
         }
     }
 
-    fun getProductLiveData(): LiveData<Either<Constants.ApiError, List<Product?>>> {
+    fun getProductLiveData(): LiveData<DataProducts> {
         return listData
     }
 

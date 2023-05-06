@@ -2,7 +2,6 @@ package com.example.mercadolibreapp.presentation
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.example.mercadolibreapp.core.MyApplication
 import com.example.mercadolibreapp.data.models.ProductDetails
-import com.example.mercadolibreapp.data.models.ResponseDTO
 import com.example.mercadolibreapp.databinding.FragmentDetailsBinding
 import com.example.mercadolibreapp.domain.usecase.GetProductDetailsUseCase
 import com.example.mercadolibreapp.helpers.*
@@ -66,50 +63,48 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun updateView(response: Either<Constants.ApiError, ProductDetails?>?) {
+    private fun updateView(productDetails: ProductDetails) {
 
         with(binding) {
-            response?.fold(
-                left = {
-                    tvErrorText.text = it.error
-                    cvEmptyState.show()
-                    clContent.hide()
-                }, right = {
-                    clContent.show()
+            productDetails.apiError?.let {
+                tvErrorText.text = it.error
+                cvEmptyState.show()
+                clContent.hide()
+            }?: kotlin.run {
+                clContent.show()
 
-                    it?.let { product ->
-                        product.title?.let { title ->
-                            tvTitle.text = title
-                        } ?: tvTitle.hide()
+                productDetails.let { product ->
+                    product.title?.let { title ->
+                        tvTitle.text = title
+                    } ?: tvTitle.hide()
 
-                        vpImages.adapter = ImageAdapter(it.pictures)
-                        diIndicator.attachTo(vpImages)
+                    vpImages.adapter = ImageAdapter(productDetails.pictures)
+                    diIndicator.attachTo(vpImages)
 
-                        product.availableQuantity?.let { availableQuatity ->
-                            if (availableQuatity > 0) tvAvailableQuantity.text = "Unidades disponibles: $availableQuatity"
-                        } ?: tvAvailableQuantity.hide()
+                    product.availableQuantity?.let { availableQuatity ->
+                        if (availableQuatity > 0) tvAvailableQuantity.text = "Unidades disponibles: $availableQuatity"
+                    } ?: tvAvailableQuantity.hide()
 
-                        product.price?.let { price ->
-                            tvPrice.text = "$${price.toFloat()}"
-                        } ?: tvPrice.hide()
+                    product.price?.let { price ->
+                        tvPrice.text = "$${price.toFloat()}"
+                    } ?: tvPrice.hide()
 
-                        product.shipping?.freeShipping
-                            ?.let { freeShipping ->
-                                if (freeShipping) tvFreeShipping.show()
-                                else tvFreeShipping.hide()
-                            } ?: tvFreeShipping.hide()
+                    product.shipping?.freeShipping
+                        ?.let { freeShipping ->
+                            if (freeShipping) tvFreeShipping.show()
+                            else tvFreeShipping.hide()
+                        } ?: tvFreeShipping.hide()
 
-                        product.description?.let { description ->
-                            tvDescription.text = description.text
-                            tvDescription.show()
-                        }?: kotlin.run { tvDescription.hide() }
+                    product.description?.let { description ->
+                        tvDescription.text = description.text
+                        tvDescription.show()
+                    }?: kotlin.run { tvDescription.hide() }
 
-                        btnBuy.setOnClickListener {
-                            openMercadoLibreApp(product)
-                        }
+                    btnBuy.setOnClickListener {
+                        openMercadoLibreApp(product)
                     }
                 }
-            )
+            }
             cpiLoading.hide()
         }
     }

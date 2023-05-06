@@ -1,11 +1,10 @@
 package com.example.mercadolibreapp.data.repository
 
+import com.example.mercadolibreapp.data.models.DataProducts
 import com.example.mercadolibreapp.data.models.Description
 import com.example.mercadolibreapp.data.models.ProductDetails
 import com.example.mercadolibreapp.data.models.ResponseDTO
 import com.example.mercadolibreapp.domain.repository.ProductRepository
-import com.example.mercadolibreapp.helpers.Constants
-import com.example.mercadolibreapp.helpers.Either
 
 /**
  * @author Axel Sanchez
@@ -37,22 +36,22 @@ class FakeRepository: ProductRepository {
 
     val description = Description(1, "Esta es una descripcion de prueba")
 
-    val productDetails = ProductDetails(id = product1.id?:"", title = product1.title, description = description)
+    val productDetails = ProductDetails(id = product1.id, title = product1.title, description = description)
 
-    override suspend fun getProductsBySearch(query: String): Either<Constants.ApiError, List<ResponseDTO.Product?>> {
-        return Either.Right(listOf(product1, product2, product3, product4))
+    override suspend fun getProductsBySearch(query: String): DataProducts {
+        return DataProducts(products = listOf(product1, product2, product3, product4))
     }
 
-    override suspend fun getProductDetails(idProduct: String): Either<Constants.ApiError, ProductDetails?> {
-        return Either.Right(productDetails)
+    override suspend fun getProductDetails(idProduct: String): ProductDetails {
+        return productDetails
     }
 
     override suspend fun getLocalProducts(query: String): List<ResponseDTO.Product?> {
         return listOf()
     }
 
-    override suspend fun getRemoteProducts(query: String): Either<Constants.ApiError, List<ResponseDTO.Product?>> {
-        return Either.Right(listOf(product1, product2, product3, product4))
+    override suspend fun getRemoteProducts(query: String): DataProducts {
+        return DataProducts(products = listOf(product1, product2, product3, product4))
     }
 
     companion object{

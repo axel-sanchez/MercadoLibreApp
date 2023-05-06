@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mercadolibreapp.R
 import com.example.mercadolibreapp.core.MyApplication
+import com.example.mercadolibreapp.data.models.DataProducts
 import com.example.mercadolibreapp.data.models.ResponseDTO.*
 import com.example.mercadolibreapp.databinding.FragmentSearchBinding
 import com.example.mercadolibreapp.domain.usecase.GetProductsBySearchUseCase
@@ -20,7 +21,6 @@ import com.example.mercadolibreapp.helpers.Constants.ApiError
 import com.example.mercadolibreapp.helpers.Constants.ID_IMAGE_VIEW
 import com.example.mercadolibreapp.helpers.Constants.ID_PRODUCT
 import com.example.mercadolibreapp.helpers.Constants.QUERY
-import com.example.mercadolibreapp.helpers.Either
 import com.example.mercadolibreapp.helpers.hide
 import com.example.mercadolibreapp.helpers.show
 import com.example.mercadolibreapp.presentation.adapter.ProductAdapter
@@ -70,24 +70,23 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun updateView(response: Either<ApiError, List<Product?>>?) {
+    private fun updateView(dataProducts: DataProducts) {
         with(binding) {
-            response?.fold(
-                left = {
-                    tvErrorText.text = it.error
-                    cvEmptyState.show()
+
+            dataProducts.products?.let { products ->
+                if (products.isEmpty()) {
                     rvProducts.hide()
-                }, right = {
-                    if ((response as Either.Right).r.isEmpty()) {
-                        rvProducts.hide()
-                        tvErrorText.text = ApiError.EMPTY_PRODUCTS.error
-                        cvEmptyState.show()
-                    } else {
-                        rvProducts.show()
-                        setAdapter(response.r)
-                    }
+                    tvErrorText.text = ApiError.EMPTY_PRODUCTS.error
+                    cvEmptyState.show()
+                } else {
+                    rvProducts.show()
+                    setAdapter(products)
                 }
-            )
+            }?: kotlin.run {
+                tvErrorText.text = dataProducts.apiError?.error
+                cvEmptyState.show()
+                rvProducts.hide()
+            }
             cpiLoading.hide()
         }
     }

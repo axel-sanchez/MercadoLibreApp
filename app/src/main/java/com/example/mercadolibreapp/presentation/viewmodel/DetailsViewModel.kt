@@ -3,8 +3,6 @@ package com.example.mercadolibreapp.presentation.viewmodel
 import androidx.lifecycle.*
 import com.example.mercadolibreapp.data.models.ProductDetails
 import com.example.mercadolibreapp.domain.usecase.GetProductDetailsUseCase
-import com.example.mercadolibreapp.helpers.Constants
-import com.example.mercadolibreapp.helpers.Either
 import kotlinx.coroutines.launch
 
 /**
@@ -12,10 +10,10 @@ import kotlinx.coroutines.launch
  */
 class DetailsViewModel(private val getProductDetailsUseCase: GetProductDetailsUseCase) : ViewModel() {
 
-    private val productLiveData: MutableLiveData<Either<Constants.ApiError, ProductDetails?>> =
-        MutableLiveData<Either<Constants.ApiError, ProductDetails?>>()
+    private val productLiveData: MutableLiveData<ProductDetails> =
+        MutableLiveData<ProductDetails>()
 
-    private fun setListData(result: Either<Constants.ApiError, ProductDetails?>) {
+    private fun setListData(result: ProductDetails) {
         productLiveData.postValue(result)
     }
 
@@ -25,7 +23,7 @@ class DetailsViewModel(private val getProductDetailsUseCase: GetProductDetailsUs
         }
     }
 
-    fun getProductLiveData(): LiveData<Either<Constants.ApiError, ProductDetails?>> {
+    fun getProductLiveData(): LiveData<ProductDetails> {
         return productLiveData
     }
 

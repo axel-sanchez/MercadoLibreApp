@@ -60,7 +60,7 @@ class ApplicationModule(private val context: Context){
     @Singleton
     fun provideDatabase(context: Context): Database {
         return Room
-            .databaseBuilder(context, Database::class.java, "MercadoLibreDB.db3")
+            .databaseBuilder(context, Database::class.java, "MercadoLibreDB.db4")
             .build()
     }
 
