@@ -3,6 +3,7 @@ package com.example.mercadolibreapp.data.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.mercadolibreapp.data.models.ResponseDTO.Product.*
+import com.example.mercadolibreapp.helpers.Constants
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -24,5 +25,6 @@ import com.google.gson.annotations.SerializedName
     @SerializedName("seller_address")
     val sellerAddress: SellerAddress? = null,
     val title: String? = null,
-    var description: Description? = null
+    var description: Description? = null,
+    val apiError: Constants.ApiError? = null
 )

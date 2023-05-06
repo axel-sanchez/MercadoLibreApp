@@ -8,9 +8,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,9 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.mercadolibreapp.R
-import com.example.mercadolibreapp.data.models.ResponseDTO
-import com.example.mercadolibreapp.helpers.Constants
-import com.example.mercadolibreapp.helpers.Either
+import com.example.mercadolibreapp.data.models.DataProducts
 import com.example.mercadolibreapp.presentation.viewmodel.SearchViewModel
 
 /**
@@ -33,9 +29,7 @@ import com.example.mercadolibreapp.presentation.viewmodel.SearchViewModel
 fun SearchScreen(
     query: String, viewModel: SearchViewModel
 ) {
-    val products: Either<Constants.ApiError, List<ResponseDTO.Product?>> by viewModel.getProductLiveData().observeAsState(initial = Either.Right(
-        listOf()
-    ))
+    val products: DataProducts by viewModel.getProductLiveData().observeAsState(initial = DataProducts(listOf()))
     
     /*val showLoading = rememberSaveable(inputs = , stateSaver = ) {
 

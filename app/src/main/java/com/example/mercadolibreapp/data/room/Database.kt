@@ -13,7 +13,7 @@ import com.example.mercadolibreapp.data.models.ResponseDTO.*
  */
 @Database(
     entities = [Product::class, ProductDetails::class, Picture::class, Description::class],
-    version = 3
+    version = 4
 )
 @TypeConverters(Converters::class)
 abstract class Database: RoomDatabase() {
