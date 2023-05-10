@@ -1,4 +1,4 @@
-package com.example.mercadolibreapp.presentation.navigation
+package com.example.mercadolibreapp.navigation
 
 /**
  * @author Axel Sanchez

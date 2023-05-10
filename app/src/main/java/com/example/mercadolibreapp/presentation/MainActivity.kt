@@ -10,7 +10,7 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.example.mercadolibreapp.core.MyApplication
 import com.example.mercadolibreapp.domain.usecase.GetProductsBySearchUseCase
-import com.example.mercadolibreapp.presentation.navigation.NavigationHost
+import com.example.mercadolibreapp.navigation.NavigationHost
 import com.example.mercadolibreapp.presentation.ui.theme.MercadoLibreAppTheme
 import com.example.mercadolibreapp.presentation.viewmodel.SearchViewModel
 import javax.inject.Inject

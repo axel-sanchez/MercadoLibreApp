@@ -1,4 +1,4 @@
-package com.example.mercadolibreapp.presentation.navigation
+package com.example.mercadolibreapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mercadolibreapp.helpers.Constants.QUERY
 import com.example.mercadolibreapp.presentation.HomeScreen
 import com.example.mercadolibreapp.presentation.SearchScreen
-import com.example.mercadolibreapp.presentation.navigation.Destinations.*
+import com.example.mercadolibreapp.navigation.Destinations.*
 import com.example.mercadolibreapp.presentation.viewmodel.SearchViewModel
 
 /**
