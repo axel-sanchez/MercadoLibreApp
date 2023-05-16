@@ -8,7 +8,6 @@ import com.example.mercadolibreapp.data.repository.FakeRepository.Companion.TECL
 import com.example.mercadolibreapp.domain.usecase.GetProductsBySearchUseCase
 import com.example.mercadolibreapp.helpers.Constants
 import com.example.mercadolibreapp.helpers.Either
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers.contains
 import org.junit.Assert.fail
@@ -36,7 +35,7 @@ class SearchViewModelTest{
         val viewModel = SearchViewModel(useCase)
         runBlocking() {
             viewModel.setListData(useCase.call(TECLADO))
-            val result = viewModel.getProductLiveData().value
+            val result = viewModel.getProductsLiveData().value
             result?.fold(
                 left = {},
                 right = { products ->

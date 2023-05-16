@@ -9,9 +9,7 @@ import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mercadolibreapp.R
 import com.example.mercadolibreapp.core.MyApplication
 import com.example.mercadolibreapp.data.models.DataProducts
 import com.example.mercadolibreapp.data.models.ResponseDTO.*
@@ -63,9 +61,9 @@ class SearchFragment : Fragment() {
 
         query = arguments?.getString(QUERY)?:""
 
-        viewModel.getProduct(query)
+        viewModel.getProducts(query)
 
-        viewModel.getProductLiveData().observe(viewLifecycleOwner) { response ->
+        viewModel.getProductsLiveData().observe(viewLifecycleOwner) { response ->
             updateView(response)
         }
     }

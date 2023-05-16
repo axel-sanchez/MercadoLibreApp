@@ -1,6 +1,7 @@
 package com.example.mercadolibreapp.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -17,15 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.rememberImagePainter
 import com.example.mercadolibreapp.R
 import com.example.mercadolibreapp.data.models.DataProducts
-import com.example.mercadolibreapp.helpers.Constants.ApiError.*
+import com.example.mercadolibreapp.helpers.Constants
 import com.example.mercadolibreapp.presentation.viewmodel.SearchViewModel
 
 /**
@@ -34,10 +33,10 @@ import com.example.mercadolibreapp.presentation.viewmodel.SearchViewModel
 
 @Composable
 fun SearchScreen(
-    query: String, viewModel: SearchViewModel
+    query: String, viewModel: SearchViewModel, navigateDetailsScreen: (String) -> Unit
 ) {
-    viewModel.getProduct(query)
-    val dataProducts: DataProducts by viewModel.getProductLiveData()
+    viewModel.getProducts(query)
+    val dataProducts: DataProducts by viewModel.getProductsLiveData()
         .observeAsState(initial = DataProducts())
 
     ConstraintLayout(
@@ -46,7 +45,7 @@ fun SearchScreen(
     ) {
         val (emptyState, loading) = createRefs()
 
-        EmptyState(modifier = Modifier.constrainAs(emptyState) {
+        ErrorState(modifier = Modifier.constrainAs(emptyState) {
             top.linkTo(parent.top)
             start.linkTo(parent.start)
             end.linkTo(parent.end)
@@ -59,12 +58,12 @@ fun SearchScreen(
             end.linkTo(parent.end)
         }, dataProducts)
 
-        ProductList(dataProducts)
+        ProductList(dataProducts, navigateDetailsScreen)
     }
 }
 
 @Composable
-fun Loading(modifier: Modifier, dataProducts: DataProducts) {
+private fun Loading(modifier: Modifier, dataProducts: DataProducts) {
     if (dataProducts.products == null) {
         Box(
             modifier = modifier.fillMaxSize(),
@@ -76,10 +75,10 @@ fun Loading(modifier: Modifier, dataProducts: DataProducts) {
 }
 
 @Composable
-fun EmptyState(modifier: Modifier, dataProducts: DataProducts) {
+private fun ErrorState(modifier: Modifier, dataProducts: DataProducts) {
     dataProducts.products?.let { products ->
         if (products.isEmpty()) {
-            ErrorCard(EMPTY_PRODUCTS.error, modifier)
+            ErrorCard(Constants.ApiError.EMPTY_PRODUCTS.error, modifier)
         }
     } ?: run {
         dataProducts.apiError?.let{
@@ -89,30 +88,14 @@ fun EmptyState(modifier: Modifier, dataProducts: DataProducts) {
 }
 
 @Composable
-fun ErrorCard(message: String, modifier: Modifier) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(12.dp),
-        elevation = 4.dp,
-    ) {
-        Text(
-            text = message,
-            Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            softWrap = true,
-            style = TextStyle(fontSize = 18.sp)
-        )
-    }
-}
-
-@Composable
-fun ProductList(dataProducts: DataProducts) {
+fun ProductList(dataProducts: DataProducts, navigateDetailsScreen: (String) -> Unit) {
     if (!dataProducts.products.isNullOrEmpty()) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             itemsIndexed(dataProducts.products) { index, product ->
-                ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+                ConstraintLayout(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { navigateDetailsScreen(product?.id?:"") }) {
                     val (card, title, price, freeShipping, divider) = createRefs()
                     Card(
                         modifier = Modifier

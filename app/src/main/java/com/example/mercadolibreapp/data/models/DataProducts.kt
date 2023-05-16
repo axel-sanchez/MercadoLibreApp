@@ -5,7 +5,7 @@ import com.example.mercadolibreapp.helpers.Constants
 /**
  * @author Axel Sanchez
  */
-data class DataProducts(
+class DataProducts(
     val products: List<ResponseDTO.Product?>? = null,
     val apiError: Constants.ApiError? = null
 )

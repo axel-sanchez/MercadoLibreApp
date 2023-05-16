@@ -18,13 +18,13 @@ class SearchViewModel(private val getProductsBySearchUseCase: GetProductsBySearc
         listData.postValue(result)
     }
 
-    fun getProduct(query: String) {
+    fun getProducts(query: String) {
         viewModelScope.launch {
             setListData(getProductsBySearchUseCase.call(query))
         }
     }
 
-    fun getProductLiveData(): LiveData<DataProducts> {
+    fun getProductsLiveData(): LiveData<DataProducts> {
         return listData
     }
 
