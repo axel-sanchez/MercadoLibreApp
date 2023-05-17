@@ -44,6 +44,5 @@ fun NavigationHost(searchViewModel: SearchViewModel, detailsViewModel: DetailsVi
             val idProduct = navBackStackEntry.arguments?.getString(ID_PRODUCT)?:""
             DetailsScreen(idProduct, detailsViewModel)
         }
-
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -39,6 +40,14 @@ fun SearchScreen(
     val dataProducts: DataProducts by viewModel.getProductsLiveData()
         .observeAsState(initial = DataProducts())
 
+
+    DisposableEffect(dataProducts) {
+        onDispose {
+            viewModel.reset()
+        }
+    }
+
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -58,7 +67,7 @@ fun SearchScreen(
             end.linkTo(parent.end)
         }, dataProducts)
 
-        ProductList(dataProducts, navigateDetailsScreen)
+        ProductList(dataProducts, viewModel, navigateDetailsScreen)
     }
 }
 
@@ -81,21 +90,23 @@ private fun ErrorState(modifier: Modifier, dataProducts: DataProducts) {
             ErrorCard(Constants.ApiError.EMPTY_PRODUCTS.error, modifier)
         }
     } ?: run {
-        dataProducts.apiError?.let{
+        dataProducts.apiError?.let {
             ErrorCard(it.error, modifier)
         }
     }
 }
 
 @Composable
-fun ProductList(dataProducts: DataProducts, navigateDetailsScreen: (String) -> Unit) {
+fun ProductList(dataProducts: DataProducts, viewModel: SearchViewModel, navigateDetailsScreen: (String) -> Unit) {
     if (!dataProducts.products.isNullOrEmpty()) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             itemsIndexed(dataProducts.products) { index, product ->
                 ConstraintLayout(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { navigateDetailsScreen(product?.id?:"") }) {
+                        .clickable {
+                            navigateDetailsScreen(product?.id ?: "")
+                        }) {
                     val (card, title, price, freeShipping, divider) = createRefs()
                     Card(
                         modifier = Modifier

@@ -12,6 +12,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -41,6 +42,12 @@ fun DetailsScreen(idProduct: String, viewModel: DetailsViewModel) {
     viewModel.getProduct(idProduct)
     val productDetails: ProductDetails by viewModel.getProductLiveData()
         .observeAsState(initial = ProductDetails(""))
+
+    DisposableEffect(productDetails) {
+        onDispose {
+            viewModel.reset()
+        }
+    }
 
     ConstraintLayout(
         modifier = Modifier

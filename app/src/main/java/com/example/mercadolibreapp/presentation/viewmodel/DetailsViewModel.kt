@@ -1,6 +1,7 @@
 package com.example.mercadolibreapp.presentation.viewmodel
 
 import androidx.lifecycle.*
+import com.example.mercadolibreapp.data.models.DataProducts
 import com.example.mercadolibreapp.data.models.ProductDetails
 import com.example.mercadolibreapp.domain.usecase.GetProductDetailsUseCase
 import kotlinx.coroutines.launch
@@ -10,11 +11,15 @@ import kotlinx.coroutines.launch
  */
 class DetailsViewModel(private val getProductDetailsUseCase: GetProductDetailsUseCase) : ViewModel() {
 
-    private val productLiveData: MutableLiveData<ProductDetails> =
+    private var productLiveData: MutableLiveData<ProductDetails> =
         MutableLiveData<ProductDetails>()
 
     private fun setListData(result: ProductDetails) {
         productLiveData.postValue(result)
+    }
+
+    fun reset(){
+        productLiveData = MutableLiveData<ProductDetails>()
     }
 
     fun getProduct(idProduct: String) {

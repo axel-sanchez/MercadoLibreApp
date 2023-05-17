@@ -10,12 +10,16 @@ import kotlinx.coroutines.launch
  */
 class SearchViewModel(private val getProductsBySearchUseCase: GetProductsBySearchUseCase): ViewModel() {
 
-    private val listData: MutableLiveData<DataProducts> =
+    private var listData: MutableLiveData<DataProducts> =
         MutableLiveData<DataProducts>()
 
 
     fun setListData(result: DataProducts) {
         listData.postValue(result)
+    }
+
+    fun reset(){
+        listData = MutableLiveData<DataProducts>()
     }
 
     fun getProducts(query: String) {
