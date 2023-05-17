@@ -18,10 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.core.content.ContextCompat
 import coil.compose.rememberImagePainter
 import com.example.mercadolibreapp.R
 import com.example.mercadolibreapp.data.models.DataProducts
@@ -67,7 +72,7 @@ fun SearchScreen(
             end.linkTo(parent.end)
         }, dataProducts)
 
-        ProductList(dataProducts, viewModel, navigateDetailsScreen)
+        ProductList(dataProducts, navigateDetailsScreen)
     }
 }
 
@@ -97,7 +102,7 @@ private fun ErrorState(modifier: Modifier, dataProducts: DataProducts) {
 }
 
 @Composable
-fun ProductList(dataProducts: DataProducts, viewModel: SearchViewModel, navigateDetailsScreen: (String) -> Unit) {
+fun ProductList(dataProducts: DataProducts, navigateDetailsScreen: (String) -> Unit) {
     if (!dataProducts.products.isNullOrEmpty()) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             itemsIndexed(dataProducts.products) { index, product ->
@@ -148,10 +153,12 @@ fun ProductList(dataProducts: DataProducts, viewModel: SearchViewModel, navigate
                                 width = Dimension.fillToConstraints
                             }
                             .padding(top = 10.dp, end = 10.dp),
-                        text = product?.price.toString(),
-                        softWrap = true
+                        text = "$${product?.price.toString()}",
+                        softWrap = true,
+                        fontSize = 25.sp
                     )
                     product?.shipping?.freeShipping?.let { isFreeShipping ->
+                        val holoGreenDarkColor = ContextCompat.getColor(LocalContext.current, android.R.color.holo_green_dark)
                         if (isFreeShipping) {
                             Text(
                                 modifier = Modifier
@@ -163,7 +170,7 @@ fun ProductList(dataProducts: DataProducts, viewModel: SearchViewModel, navigate
                                     }
                                     .padding(top = 10.dp, end = 10.dp, bottom = 10.dp),
                                 text = stringResource(R.string.envio_gratis),
-                                softWrap = true, color = Color.Green
+                                softWrap = true, color = Color(holoGreenDarkColor)
                             )
                         }
                     }
@@ -172,7 +179,7 @@ fun ProductList(dataProducts: DataProducts, viewModel: SearchViewModel, navigate
                             modifier = Modifier.constrainAs(divider) {
                                 top.linkTo(card.bottom)
                             },
-                            color = Color.Gray,
+                            color = colorResource(id = R.color.separator_gray),
                             thickness = 1.dp
                         )
                     }
