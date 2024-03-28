@@ -35,7 +35,7 @@ class ProductRemoteSourceImpl @Inject constructor(private val service: ApiServic
 
             val response = service.getProducts(query)
             if (response.isSuccessful) {
-                Log.i("Successful Response", response.body().toString())
+                Log.i("Successful Response", response.toString())
 
                 response.body()?.let { result ->
                     mutableLiveData.value = DataProducts(products = result.results?: listOf())
@@ -71,7 +71,7 @@ class ProductRemoteSourceImpl @Inject constructor(private val service: ApiServic
 
             val response = service.getDetailsById(idProduct)
             if (response.isSuccessful) {
-                Log.i("Successful Response", response.body().toString())
+                Log.i("Successful Response", response.toString())
 
                 response.body()?.let { result ->
                     mutableLiveData.value = result
@@ -101,7 +101,7 @@ class ProductRemoteSourceImpl @Inject constructor(private val service: ApiServic
         try {
             val response = service.getDescription(idProduct)
             if (response.isSuccessful) {
-                Log.i("Successful Response", response.body().toString())
+                Log.i("Successful Response", response.toString())
 
                 mutableLiveData.value = response.body()
             } else {
