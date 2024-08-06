@@ -35,6 +35,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val set = setOf("apple", "pear", "orange", "apple")
+        println(set.size)
+
+
         (application as MyApplication).component.inject(this)
         setContent {
             MercadoLibreAppTheme {
