@@ -33,7 +33,7 @@ class SearchViewModelTest{
         val viewModel = SearchViewModel(useCase)
         runBlocking {
             viewModel.setListData(useCase.call(TECLADO))
-            val result = viewModel.getProductLiveData().value
+            val result = viewModel.getProductsLiveData().value
             result?.products?.let { products ->
                 assertThat(products, contains(repository.product1, repository.product2, repository.product3, repository.product4))
             } ?: kotlin.run { fail("El Live Data no pudo ser actualizado con su nuevo valor") }

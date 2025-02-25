@@ -1,15 +1,12 @@
 package com.example.mercadolibreapp.data.repository
 
-import com.example.mercadolibreapp.data.models.DataProducts
-import com.example.mercadolibreapp.data.models.Description
-import com.example.mercadolibreapp.data.models.ProductDetails
-import com.example.mercadolibreapp.data.models.ResponseDTO
+import com.example.mercadolibreapp.data.models.*
 import com.example.mercadolibreapp.domain.repository.ProductRepository
 
 /**
  * @author Axel Sanchez
  */
-class FakeRepository: ProductRepository {
+class FakeRepository : ProductRepository {
     val product4 = ResponseDTO.Product(
         id = "MLA1199944090",
         title = "Teclado Bluetooth Satechi Slim St-btsx1m Qwerty Inglés Us Color Gris",
@@ -36,7 +33,28 @@ class FakeRepository: ProductRepository {
 
     val description = Description(1, "Esta es una descripcion de prueba")
 
-    val productDetails = ProductDetails(id = product1.id, title = product1.title, description = description)
+    val productDetails = ProductDetails(
+        id = product1.id,
+        title = product1.title,
+        description = description,
+        pictures = listOf(
+            Picture(
+                "1",
+                secure_url = "https://http2.mlstatic.com/D_NQ_NP_666867-MLA48161837344_112021-O.webp"
+            ),
+            Picture(
+                "2",
+                secure_url = "https://http2.mlstatic.com/D_NQ_NP_749370-MLA46440117464_062021-O.jpg"
+            ),
+            Picture(
+                "3",
+                secure_url = "https://http2.mlstatic.com/D_NQ_NP_988070-MLA52545987935_112022-O.jpg"
+            )
+        ),
+        availableQuantity = 13,
+        shipping = ResponseDTO.Product.Shipping(freeShipping = true),
+        price = 10000
+    )
 
     override suspend fun getProductsBySearch(query: String): DataProducts {
         return DataProducts(products = listOf(product1, product2, product3, product4))
@@ -54,7 +72,7 @@ class FakeRepository: ProductRepository {
         return DataProducts(products = listOf(product1, product2, product3, product4))
     }
 
-    companion object{
+    companion object {
         const val TECLADO = "teclado"
     }
 }

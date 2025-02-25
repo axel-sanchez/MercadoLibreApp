@@ -8,8 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#FEE600</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
     <color name="gray">#7d7e8a</color>
     <color name="background_card_gray">#65515050</color>
     <color name="separator_gray">#94959595</color>
